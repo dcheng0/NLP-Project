@@ -1,6 +1,0 @@
--rw-r--r-- 1 sdaven sdaven  6279782 Jan 18 16:24 sample_submission.csv
--rw-r--r-- 1 sdaven sdaven 60354593 Jan 18 16:24 test.csv
--rw-r--r-- 1 sdaven sdaven 68802655 Jan 18 16:24 train.csv
-
-I got a github large files warning so putting the output of ls -la here to document proper file sizes, incase of
-truncation.

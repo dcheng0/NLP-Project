@@ -2,5 +2,5 @@
 *.swp
 
 # extracted data directory
-/data/*.csv
+/data/
 
