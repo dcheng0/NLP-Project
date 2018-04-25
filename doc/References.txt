@@ -1,0 +1,5 @@
+Huge thanks to the following projects, from which the project has adapted code:
+
+httpss://github.com/dennybritz/cnn-text-classification-tf.git
+
+https://github.com/tanmayb123/Keras-Natural-Language-Classification.git
