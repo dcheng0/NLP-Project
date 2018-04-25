@@ -1,2 +1,6 @@
 # vim swap files
 *.swp
+
+# extracted data directory
+data/
+
