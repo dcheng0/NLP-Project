@@ -1,12 +1,30 @@
 #!/usr/bin/env python
 
-from __future__ import absolute import 
+# from __future__ import absolute import 
 
-from keras import preprocessing
+# import keras
+from keras.preprocessing import text 
+from keras.preprocessing.text import hashing_trick
+import configparser
 
-# from https://keras.io/preproccesing/text
+# Configuration
+config = configparser.ConfigParser()
 
-preprocessing.text.Tokenizer(num_words=None, filters='!"#$%&()*+,-./:;<=>?@[\]^_'{|]~', lower=True, split=' ',
-char_level=False, oov_Token=None)
+# Tokenizer, from Keras Docs 
 
-hashing_trick(text, n, hash_functions=None, filters=
+text.Tokenizer(num_words=None, filters='!"#$%&()*+,-./:;<=>?@[\]^_`{|}~ ', lower=True, split=' ', char_level=False, oov_token=None)
+
+'''
+# Hashing Trick, from Keras Docs
+
+hashing_trick(text, config.read('vocab_size'), hash_function=None, filters='!"#$%&()*+,-./:;<=>?@[\]^_`{|}~ ', lower=True, split=' ')
+
+# One_hot, from Keras Docs
+
+text.one_hot(text, n, filters='!"#$%&()*+,-./:;<=>?@[\]^_`{|}~   ', lower=True, split=' ')
+
+
+# text_to_word_sequence, from Keras Docs
+
+ktxt.text_to_word_sequence(text, filters='!"#$%&()*+,-./:;<=>?@[\]^_`{|}~ ', lower=True, split=' ')
+'''
