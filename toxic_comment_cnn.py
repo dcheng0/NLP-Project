@@ -23,9 +23,9 @@ from keras.layers import Embedding
 from keras.layers import Conv1D, GlobalMaxPooling1D
 from argparse import ArgumentParser
 
-# to add tweakable cl arguments, like in Denny Britz's CNN
+# to add adjustable cli arguments, like in Denny Britz's CNN
 # see ref/ for his project
-parser = ArgumentParser(description='For tweaking hyperparameters.')
+parser = ArgumentParser(description='For adjusting hyperparameters.')
 # various arguments
 parser.add_argument('--embedding_dim', '-e', type=int,
     help='Dimensionality of character embedding (default: 128)',
