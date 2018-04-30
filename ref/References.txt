@@ -2,4 +2,4 @@ Huge thanks to the following projects, from which the project has adapted code:
 
 https://github.com/keras-team/keras/examples/imdb_cnn.py
 
-
+Thank you to Ahmad for writing Keras code to load and tokenize the dataset.
