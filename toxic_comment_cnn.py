@@ -21,6 +21,27 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.layers import Embedding
 from keras.layers import Conv1D, GlobalMaxPooling1D
+from argparse import ArgumentParser
+
+# to add tweakable cl arguments, like in Denny Britz's CNN
+# see ref/ for his project
+parser = ArgumentParser(description='For tweaking hyperparameters.')
+# various arguments
+parser.add_argument('--embedding_dim', '-e', type=int,
+    help='Dimensionality of character embedding (default: 128)',
+    default=128)
+parser.add_argument('--num_filters', type=int,
+    help='Number of filters per filter size. (default: 250)',
+    default=250)
+parser.add_argument('--batch_size', type=int,
+    help='Batch Size (default: 64)',
+    default=64)
+parser.add_argument('--num_epochs', type=int,
+    help='Number of training epochs. (default: 1)',
+    default=1)
+
+# set args
+args = parser.parse_args()
 
 # set train and test values
 train = pd.read_csv('data/train.csv')
@@ -31,12 +52,12 @@ y_train = train[list_classes].values
 # set parameters:
 max_features = 25000
 maxlen = 250
-batch_size = 32
-embedding_dims = 128
-filters = 250
+batch_size = args.batch_size
+embedding_dims = args.embedding_dim
+filters = args.num_filters
 kernel_size = 3
 hidden_dims = 250
-epochs = 1
+epochs = args.num_epochs
 
 list_sentences_train = train["comment_text"]
 list_sentences_test = train["comment_text"]
