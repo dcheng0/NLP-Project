@@ -1,0 +1,5 @@
+Huge thanks to the following projects, from which the project has adapted code:
+
+https://github.com/keras-team/keras/examples/imdb_cnn.py
+
+
