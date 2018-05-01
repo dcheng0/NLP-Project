@@ -122,4 +122,4 @@ list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identit
 
 submission[list_classes] = y_pred
 print(submission.head())
-submission.to_csv('data/baseline_model_v4.csv', index = False)
+submission.to_csv('baseline_model_v4.csv', index = False)
