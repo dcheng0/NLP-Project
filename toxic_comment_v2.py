@@ -63,24 +63,23 @@ def buildFeedForwardModel(X_train, y, input_len, e, batch, l, opt, valid_split):
     model.fit(X_train, y, epochs=e, batch_size=batch, verbose=1, validation_split=valid_split)
     return model
 
-def buildCNNModel(x_train, y_train, max_features, filters, kernel_size, maxlen):
+def buildCNNModel(x_train, y_train, max_features, filters, stride, kernel_size, embedding_dim, bs, hidden_dim, maxlen):
     model = Sequential()
     # we start off with an efficient embedding layer which maps
     # our vocab indices into embedding_dims dimensions
-    model.add(Embedding(max_features, 128, input_length=maxlen))
+    model.add(Embedding(max_features, embedding_dim, input_length=maxlen))
     model.add(Dropout(0.2))
     
     model.add(Conv1D(filters,
                  kernel_size,
                  activation='relu',
-                 strides=1))
+                 strides=stride))
     
     model.add(GlobalMaxPool1D())
-    model.add(Dense(256))
+    model.add(Dense(hidden_dim))
     model.add(Dropout(0.2))
     model.add(Activation('relu'))
 
-    # output layer
     model.add(Dense(6))
     model.add(Activation('sigmoid'))
 
@@ -88,8 +87,8 @@ def buildCNNModel(x_train, y_train, max_features, filters, kernel_size, maxlen):
                   optimizer='adam',
                   metrics=['accuracy'])
     model.fit(x_train, y_train,
-              batch_size=256,
-              epochs=5,
+              batch_size=bs,
+              epochs=1,
               validation_split = 0.3)
               #validation_data=(x_test, y_test))
     
@@ -99,6 +98,7 @@ def predictModel(model, X_test):
     y_pred = model.predict(X_test)
     return y_pred
 
+
 #test run
 MAX_FEATURES = 250000
 list_sentences_train, list_sentences_test, y = read_data()
@@ -106,8 +106,10 @@ list_tokenized_train, list_tokenized_test = tokenizeComments(list_sentences_trai
 x_train, x_test = padComments(list_tokenized_train, list_tokenized_test)
 
 
-ff_model = buildFeedForwardModel(x_train, y, 250, 1, 256, "binary_crossentropy", "adam",0.3)
-cnn_model = buildCNNModel(x_train, y, MAX_FEATURES, 32, 3, 250)
+#ff_model = buildFeedForwardModel(x_train, y, 250, 1, 256, "binary_crossentropy", "adam",0.3)
+#cnn_model = buildCNNModel(x_train, y, MAX_FEATURES, 32, 3, 250)
+cnn_model = buildCNNModel(x_train, y, MAX_FEATURES, 512,1,7,1024,64,1024,250)
+
 
 y_pred = predictModel(cnn_model, x_test)
 print(len(y_pred))
@@ -117,4 +119,4 @@ list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identit
 
 submission[list_classes] = y_pred
 print(submission.head())
-submission.to_csv('baseline_model_v3.csv', index = False)
+submission.to_csv('/data/baseline_model_v4.csv', index = False)
