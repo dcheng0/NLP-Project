@@ -9,7 +9,7 @@ from keras.layers import Bidirectional, GlobalMaxPool1D, MaxPooling1D
 from keras.models import Model, Sequential
 from keras import initializers, regularizers, constraints, optimizers, layers
 
-submission = pd.read_csv('sample_submission.csv')
+submission = pd.read_csv('data/sample_submission.csv')
 def split_data_train_validate_test(data, train_percent=.7, validate_percent=.3, seed=None):
     np.random.seed(seed)
     shuffled_data = np.random.permutation(data)
@@ -19,8 +19,8 @@ def split_data_train_validate_test(data, train_percent=.7, validate_percent=.3, 
     return train, validate
 
 def read_data():
-    train = pd.read_csv('train.csv')
-    test = pd.read_csv('test.csv')
+    train = pd.read_csv('data/train.csv')
+    test = pd.read_csv('data/test.csv')
     list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"]
     y = train[list_classes].values
     list_sentences_train = train["comment_text"]
@@ -63,7 +63,7 @@ def buildFeedForwardModel(X_train, y, input_len, e, batch, l, opt, valid_split):
     model.fit(X_train, y, epochs=e, batch_size=batch, verbose=1, validation_split=valid_split)
     return model
 
-def buildCNNModel(x_train, y_train, max_features, filters, kernel_size):
+def buildCNNModel(x_train, y_train, max_features, filters, kernel_size, maxlen):
     model = Sequential()
     # we start off with an efficient embedding layer which maps
     # our vocab indices into embedding_dims dimensions
@@ -106,7 +106,7 @@ x_train, x_test = padComments(list_tokenized_train, list_tokenized_test)
 
 
 ff_model = buildFeedForwardModel(x_train, y, 250, 1, 256, "binary_crossentropy", "adam",0.3)
-cnn_model = buildCNNModel(x_train, y, MAX_FEATURES, 32, 3)
+cnn_model = buildCNNModel(x_train, y, MAX_FEATURES, 32, 3, 250)
 
 y_pred = predictModel(cnn_model, x_test)
 print(len(y_pred))
