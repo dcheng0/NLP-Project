@@ -1,0 +1,8 @@
+do stuff in google file, return it as list, 
+
+    filters, powers of 2, 5 choices [32, 64, 128, 256, 512]
+    kernel size, 2, 3, 4, 5, 7, 
+    strides 1, 2, 3
+    embedding dimensionality [64, 128, 256, 512, 1024]
+#    batch_size [64
+    hidden dimension [64, 128, 256, 512, 1024] 
