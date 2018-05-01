@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import keras
 import numpy as np
 import pandas as pd
@@ -108,7 +109,9 @@ x_train, x_test = padComments(list_tokenized_train, list_tokenized_test)
 
 #ff_model = buildFeedForwardModel(x_train, y, 250, 1, 256, "binary_crossentropy", "adam",0.3)
 #cnn_model = buildCNNModel(x_train, y, MAX_FEATURES, 32, 3, 250)
-cnn_model = buildCNNModel(x_train, y, MAX_FEATURES, 512,1,7,1024,64,1024,250)
+
+#dont change the 250
+cnn_model = buildCNNModel(x_train, y, MAX_FEATURES, 256,1,5,256,64,512,250)
 
 
 y_pred = predictModel(cnn_model, x_test)
@@ -119,4 +122,4 @@ list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identit
 
 submission[list_classes] = y_pred
 print(submission.head())
-submission.to_csv('/data/baseline_model_v4.csv', index = False)
+submission.to_csv('data/baseline_model_v4.csv', index = False)
