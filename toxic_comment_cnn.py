@@ -118,4 +118,9 @@ model.compile(loss='binary_crossentropy',
 model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=epochs,
-          validation_split=.1)
+          validation_split=.3)
+
+# Make Prediction to send to Kaggle for evaluation
+y_pred = model.predict(x_test)
+print(y_pred[0:5])
+
