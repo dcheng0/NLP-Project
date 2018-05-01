@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import keras
 import numpy as np
 import pandas as pd
@@ -143,15 +144,15 @@ x_train, x_test = padComments(list_tokenized_train, list_tokenized_test)
 #cnn_model_2 = buildCNNModel(x_train, y, MAX_FEATURES, 512,1,7,1024,64,1024,250)
 print("TRAINING A SINGLE CONV LAYER CNN")
 cnn_model_1layer = buildCNNModel(x_train, y, max_features = MAX_FEATURES, filters = 32, stride = 1, kernel_size = 5, embedding_dim = 128, bs =128, hidden_dim = 128, convolved_layers = 1
-                                 , act_function = 'relu', loss_function = 'binary_crossentropy', epoch_num = 10, maxlen = 250)
+                                 , act_function = 'relu', loss_function = 'binary_crossentropy', epoch_num = 5, maxlen = 250)
 
 print("TRAINING A DOUBLE CONV LAYER CNN")
 cnn_model_2layer = buildCNNModel(x_train, y, max_features = MAX_FEATURES, filters = 32, stride = 1, kernel_size = 5, embedding_dim = 128, bs =128, hidden_dim = 128, convolved_layers = 2
-                                 , act_function = 'relu', loss_function = 'binary_crossentropy', epoch_num = 10, maxlen = 250)
+                                 , act_function = 'relu', loss_function = 'binary_crossentropy', epoch_num = 5, maxlen = 250)
 
 print("TRAINING A TRIPLE CONV LAYER CNN")
 cnn_model_3layer = buildCNNModel(x_train, y, max_features = MAX_FEATURES, filters = 32, stride = 1, kernel_size = 5, embedding_dim = 128, bs =128, hidden_dim = 128, convolved_layers = 3
-                                 , act_function = 'relu', loss_function = 'binary_crossentropy', epoch_num = 10, maxlen = 250)
+                                 , act_function = 'relu', loss_function = 'binary_crossentropy', epoch_num = 5, maxlen = 250)
 
 
 
