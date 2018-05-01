@@ -69,7 +69,7 @@ list_tokenized_test = tokenizer.texts_to_sequences(list_sentences_test)
 
 #
 x_train = pad_sequences(list_tokenized_train, maxlen=maxlen)
-x_tst = pad_sequences(list_tokenized_test, maxlen=maxlen)
+x_test = pad_sequences(list_tokenized_test, maxlen=maxlen)
 print(x_train[0])
 
 print('Loading data...')
@@ -120,7 +120,16 @@ model.fit(x_train, y_train,
           epochs=epochs,
           validation_split=.3)
 
+# save model 
+model.save('./toxic_cnn_model')
+
 # Make Prediction to send to Kaggle for evaluation
+
 y_pred = model.predict(x_test)
 print(y_pred[0:5])
+
+submission = pd.read_csv("sample_submission.csv")
+submission.ix[:,1:7] = y_pred
+submission.to_csv("./sub_1.csv", index=False)
+
 
