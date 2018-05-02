@@ -1,0 +1,59 @@
+def buildCNNModel(x_train, y_train, max_features, filters, stride, kernel_size, embedding_dim, bs, hidden_dim, convolved_layers, 
+    act_function, loss_function, epoch_num, maxlen):
+
+    model = Sequential()
+    # we start off with an efficient embedding layer which maps
+    # our vocab indices into embedding_dims dimensions
+    model.add(Embedding(max_features, embedding_dim, input_length=maxlen))
+    model.add(Dropout(0.2))
+    
+    model.add(Conv1D(filters,
+                 kernel_size,
+                 activation='relu',
+                 strides=stride))
+    
+    if convolved_layers != 1:
+        model.add(MaxPooling1D(pool_size=2))
+    else:
+        model.add(GlobalMaxPool1D())
+
+
+
+    if convolved_layers == 2:
+        model.add(Conv1D(filters,
+                     kernel_size,
+                     activation=act_function,
+                     strides=stride))
+        model.add(GlobalMaxPool1D())
+
+    if convolved_layers == 3:
+        model.add(Conv1D(filters,
+                     kernel_size,
+                     activation=act_function,
+                     strides=stride))
+        model.add(MaxPooling1D(pool_size=2))
+
+        model.add(Conv1D(filters,
+                     kernel_size,
+                     activation=act_function,
+                     strides=stride))
+        model.add(GlobalMaxPool1D())
+
+    model.add(Dense(hidden_dim))
+    model.add(Dropout(0.2))
+    model.add(Activation('relu'))
+
+    model.add(Dense(6))
+    model.add(Activation('sigmoid'))
+
+    model.compile(loss=loss_function,
+                  optimizer='adam',
+                  metrics=['accuracy'])
+    
+    model.fit(x_train, y_train,
+              batch_size=bs,
+              epochs=epoch_num,
+              validation_split = 0.3)
+              #validation_data=(x_test, y_test))
+    
+    return model
