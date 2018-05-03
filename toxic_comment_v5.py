@@ -9,7 +9,7 @@ from keras.layers import Bidirectional, GlobalMaxPool1D, MaxPooling1D
 from keras.models import Model, Sequential
 from keras.callbacks import EarlyStopping, History
 from keras import initializers, regularizers, constraints, optimizers, layers
-from sklearn.metrics import precision_recall_fscore_support, accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score
 
 PROJECT_HOME = ''
 #PROJECT_HOME = 'NLP-Project/'
