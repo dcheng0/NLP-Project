@@ -11,7 +11,9 @@ from keras.callbacks import EarlyStopping, History
 from keras import initializers, regularizers, constraints, optimizers, layers
 from sklearn.metrics import precision_recall_fscore_support, accuracy_score, confusion_matrix
 
-submission = pd.read_csv('NLP-Project/data/sample_submission.csv')
+PROJECT_HOME = ''
+#PROJECT_HOME = 'NLP-Project/'
+submission = pd.read_csv(PROJECT_HOME + 'data/sample_submission.csv')
 
 def split_data_train_validate_test(data, train_percent=.8, validate_percent=.2, seed=None):
     np.random.seed(seed)
@@ -22,8 +24,8 @@ def split_data_train_validate_test(data, train_percent=.8, validate_percent=.2, 
     return train, validate
 
 def read_data(valid_prob):
-    train = pd.read_csv('NLP-Project/data/train.csv')
-    test = pd.read_csv('NLP-Project/data/test.csv')
+    train = pd.read_csv(PROJECT_HOME + 'data/sample_submission.csv')
+    test = pd.read_csv(PROJECT_HOME + 'data/sample_submission.csv')
     
     list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"] 
     train, validate = split_data_train_validate_test(train, valid_prob, 1-valid_prob)
