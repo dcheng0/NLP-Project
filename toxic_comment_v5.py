@@ -13,7 +13,8 @@ from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, r
 
 PROJECT_HOME = ''
 #PROJECT_HOME = 'NLP-Project/'
-submission = pd.read_csv(PROJECT_HOME + 'data/sample_submission.csv')
+submission = pd.read_csv(PROJECT_HOME+'data/sample_submission.csv')
+print(submission)
 
 def split_data_train_validate_test(data, train_percent=.8, validate_percent=.2, seed=None):
     np.random.seed(seed)
@@ -24,8 +25,8 @@ def split_data_train_validate_test(data, train_percent=.8, validate_percent=.2, 
     return train, validate
 
 def read_data(valid_prob):
-    train = pd.read_csv(PROJECT_HOME + 'data/sample_submission.csv')
-    test = pd.read_csv(PROJECT_HOME + 'data/sample_submission.csv')
+    train = pd.read_csv(PROJECT_HOME+'data/train.csv')
+    test = pd.read_csv(PROJECT_HOME+'data/test.csv')
     
     list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"] 
     train, validate = split_data_train_validate_test(train, valid_prob, 1-valid_prob)
@@ -265,7 +266,7 @@ def cnn_paramater_grid_search(x_train, x_valid
                     grid_search_results.iloc[i,8] = val_acc
 
                     print(grid_search_results)
-                    grid_search_results.to_csv('NLP-Project/results/grid_search_results_backup_2.csv', index = False)
+                    grid_search_results.to_csv(PROJECT_HOME+'results/grid_search_results_backup_2.csv', index = False)
                     
                     i = i + 1
     
