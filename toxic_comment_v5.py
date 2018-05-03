@@ -11,11 +11,7 @@ from keras.callbacks import EarlyStopping, History
 from keras import initializers, regularizers, constraints, optimizers, layers
 from sklearn.metrics import precision_recall_fscore_support, accuracy_score, confusion_matrix
 
-# spaghetti portability
-project_home = ''
-#project_home = 'NLP-Project/'
-
-submission = pd.read_csv(project_home+'data/sample_submission.csv')
+submission = pd.read_csv('NLP-Project/data/sample_submission.csv')
 
 def split_data_train_validate_test(data, train_percent=.8, validate_percent=.2, seed=None):
     np.random.seed(seed)
@@ -26,8 +22,8 @@ def split_data_train_validate_test(data, train_percent=.8, validate_percent=.2, 
     return train, validate
 
 def read_data(valid_prob):
-    train = pd.read_csv(project_home+'data/train.csv')
-    test = pd.read_csv(project_home+'data/test.csv')
+    train = pd.read_csv('NLP-Project/data/train.csv')
+    test = pd.read_csv('NLP-Project/data/test.csv')
     
     list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"] 
     train, validate = split_data_train_validate_test(train, valid_prob, 1-valid_prob)
@@ -247,7 +243,7 @@ def cnn_paramater_grid_search(x_train, x_valid
                         , convolved_layers = 1
                         , act_function = 'relu'
                         , loss_function = 'binary_crossentropy'
-                        , epoch_num = 5 
+                        , epoch_num = 5
                         , maxlen = max_comment_length)
 
                     val_loss = model_hist["val_loss"][-1]
@@ -267,7 +263,7 @@ def cnn_paramater_grid_search(x_train, x_valid
                     grid_search_results.iloc[i,8] = val_acc
 
                     print(grid_search_results)
-                    grid_search_results.to_csv(project_home+'results/grid_search_results_backup_2.csv', index = False)
+                    grid_search_results.to_csv('NLP-Project/results/grid_search_results_backup_2.csv', index = False)
                     
                     i = i + 1
     
@@ -278,14 +274,15 @@ def predictModel(model, X_test):
     return y_pred
 
 def evaluate_predictions(y_true, y_pred, threshold):
+    print (y_pred[0])
     y_pred[y_pred > threshold] = 1
     y_pred[y_pred <= threshold] = 0
     print (y_pred[0])
-    precision, recall, fbeta, support = precision_recall_fscore_support(y_true, y_pred) 
+    precision = precision_score(y_true, y_pred, average=None)
+    recall = recall_score(y_true, y_pred, average=None)
     accuracy = accuracy_score(y_true, y_pred)
-    #changed this according to stack overflow, getting numpy array error
-    conf_matrix = confusion_matrix(y_true.values.argmax(axis=1), y_pred.argmax(axis=1))
-    return precision, recall, accuracy, conf_matrix
+   #conf_matrix = confusion_matrix(y_true, y_pred)
+    return precision, recall, accuracy
 
 def baseline_predictions(y_train):
     y_train_copy = y_train.copy()
@@ -331,7 +328,6 @@ cnn_model_1layer, cnn_model_1layer_hist = buildCNNModel(x_train, y_train
     , convolved_layers = 1
     , act_function = 'relu'
     , loss_function = 'binary_crossentropy'
-    # changed to one for debugging
     , epoch_num = 1
     , maxlen = max_comment_length)
 
@@ -348,13 +344,13 @@ print(val_acc)
 
 ##evaluate model
 y_pred_validate = predictModel(cnn_model_1layer, x_valid)
-threshold_cutoff = 0.7
-precision, recall, accuracy, conf_matrix = evaluate_predictions(y_validate, y_pred_validate, threshold_cutoff)
+threshold_cutoff = 0.5
+precision, recall, accuracy = evaluate_predictions(y_validate, y_pred_validate, threshold_cutoff)
 print ('The Precision is: ' + str(precision))
 print ('The Recall is: ' + str(recall))
 print ('The Accuracy is: ' + str(accuracy))
-print ('The Confusion Matrix is')
-print(conf_matrix)
+#print ('The Confusion Matrix is')
+#print(conf_matrix)
 
 print("TRAINING A DOUBLE CONV LAYER CNN")
 
@@ -455,7 +451,7 @@ grid_search_results = cnn_paramater_grid_search(x_train, x_valid, y_train, y_val
     , 107896)
 
 print(grid_search_results)
-grid_search_results.to_csv(project_home+'results/grid_search_results_v1.csv', index = False)
+grid_search_results.to_csv('NLP-Project/results/grid_search_results_v1.csv', index = False)
 '''
 
 '''
@@ -467,7 +463,7 @@ y_pred = predictModel(cnn_model_1layer, x_test)
 list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"]
 submission[list_classes] = y_pred
 print(submission.head())
-submission.to_csv(project_home+'data/baseline_model_v6.csv', index = False)
+submission.to_csv('NLP-Project/data/baseline_model_v6.csv', index = False)
 '''
 
 '''
@@ -478,5 +474,5 @@ print(y_pred[0])
 list_classes = ["toxic", "severe_toxic", "obscene", "threat", "insult", "identity_hate"]
 submission[list_classes] = y_pred
 print(submission.head())
-submission.to_csv(project_home+'results/lstm_model_v1.csv', index = False)
+submission.to_csv('NLP-Project/results/lstm_model_v1.csv', index = False)
 '''
